@@ -248,11 +248,11 @@ const CollectionsCarousel = ({ products, onAddToCart
                   <p className="font-body text-xs text-muted-foreground">{col.nameVi}</p>
                   <p className="font-body text-primary text-sm font-medium mt-1">{col.priceDisplay}</p>
                   <div className="grid grid-cols-2 gap-2 mt-3">
-                    <button onClick={() => onAddToCart(col)} className="btn-outline-gold text-xs px-4 py-2 w-full">
+                    <button onClick={() => onAddToCart(col)} className="btn-outline-gold text-xs py-2 w-full px-[12px]">
                       <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
                     </button>
                     <Link to="/thu-vong-co?camera=1" className="w-full">
-                      <button className="btn-gold text-xs py-2 w-full px-[8px]">✨ Thử Ngay</button>
+                      <button className="btn-gold text-xs py-2 w-full px-[12px]">✨ Thử Ngay</button>
                     </Link>
                   </div>
                 </div>
