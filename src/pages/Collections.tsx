@@ -21,7 +21,7 @@ const reviews = [
   { name: "Bích Ngọc", text: "\"Lần đầu mua trang sức online mà rất an tâm. Đóng gói cẩn thận, vòng cổ sang trọng vượt mong đợi!\"", rating: 5, avatar: avatar2 },
 ];
 
-const INITIAL_COUNT = 4;
+
 
 const categories = [
   { label: "Tất Cả", value: "all" },
