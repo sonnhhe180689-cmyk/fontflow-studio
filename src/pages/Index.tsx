@@ -1,5 +1,5 @@
 import HeroCarousel from "@/components/HeroCarousel";
-import { ArrowRight, ShoppingCart, Play, X } from "lucide-react";
+import { ArrowRight, ShoppingCart, Play, X, ChevronLeft, ChevronRight } from "lucide-react";
 import craftsmanship from "@/assets/craftsmanship.jpg";
 import serviceAppointment from "@/assets/service-appointment.jpg";
 import servicePersonalize from "@/assets/service-personalize.jpg";
@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { products } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 
 const services = [
   { title: "Đặt lịch hẹn", desc: "Nắm vững nghệ thuật tặng quà mùa lễ hội với cuộc hẹn riêng tại cửa hàng.", cta: "Đặt Lịch Hẹn", link: "/lien-he", image: serviceAppointment },
