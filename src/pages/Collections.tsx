@@ -148,7 +148,7 @@ const Collections = () => {
               ))}
             </div>
           </div>
-          <CollectionsCarousel products={filteredProducts} onAddToCart={handleAddToCart} toggleFavorite={toggleFavorite} isFavorite={isFavorite} />
+          <CollectionsCarousel products={filteredProducts} onAddToCart={handleAddToCart} />
         </div>
       </section>
 
