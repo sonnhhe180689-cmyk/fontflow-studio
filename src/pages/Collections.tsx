@@ -63,7 +63,7 @@ const Collections = () => {
     return matchCategory && matchSearch;
   });
 
-  const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, INITIAL_COUNT);
+  
 
   return (
     <div className="pt-16">
