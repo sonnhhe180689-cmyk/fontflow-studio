@@ -17,6 +17,8 @@ const reviews = [
   { name: "Minh Thu", text: "\"Vòng cổ kim cương rất đẹp, sáng lấp lánh và nhẹ nhàng. Chắc chắn sẽ ghé lại lần nữa!\"", rating: 5, avatar: avatar1 },
   { name: "Hương Như", text: "\"Tôi yêu thích vòng cổ ngọc trai ở đây. Sản phẩm giao rất nhanh và chất lượng tuyệt vời!\"", rating: 5, avatar: avatar2 },
   { name: "Lan Anh", text: "\"Bộ sưu tập cao cấp rất quý phái. Vòng cổ đẹp nhất mà tôi từng sở hữu!\"", rating: 5, avatar: avatar3 },
+  { name: "Thanh Hà", text: "\"Dịch vụ tuyệt vời, nhân viên tư vấn rất nhiệt tình. Sản phẩm đúng như hình, rất hài lòng!\"", rating: 5, avatar: avatar1 },
+  { name: "Bích Ngọc", text: "\"Lần đầu mua trang sức online mà rất an tâm. Đóng gói cẩn thận, vòng cổ sang trọng vượt mong đợi!\"", rating: 5, avatar: avatar2 },
 ];
 
 const INITIAL_COUNT = 4;
