@@ -10,7 +10,7 @@ const Footer = () => {
     <footer className="bg-foreground text-primary-foreground">
       {!hideNewsletter && <NewsletterSection />}
 
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 pt-0 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div>
             <h3 className="font-display text-2xl font-bold mb-4">Luna Jewel</h3>
