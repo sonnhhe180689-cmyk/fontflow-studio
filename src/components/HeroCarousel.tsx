@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import hero1 from "@/assets/hero-1.jpg";
 import hero2 from "@/assets/hero-2.jpg";
@@ -66,7 +66,7 @@ const HeroCarousel = () => {
       ))}
 
       <div className="absolute inset-0 flex items-center">
-        <div className="container mx-auto px-4 md:px-16">
+        <div className="container mx-auto px-4 md:px-16 flex flex-col md:flex-row items-center justify-between gap-8">
           <div
             className="max-w-lg"
             style={{
@@ -84,6 +84,26 @@ const HeroCarousel = () => {
             </p>
             <button className="btn-gold mt-8 text-sm" onClick={() => navigate(slides[current].link)}>
               {slides[current].cta}
+            </button>
+          </div>
+          <div
+            className="w-48 h-48 md:w-56 md:h-56 rounded-full border border-primary-foreground/30 bg-primary-foreground/10 backdrop-blur-md flex flex-col items-center justify-center text-center shadow-[0_0_40px_rgba(255,255,255,0.1),inset_0_0_30px_rgba(255,255,255,0.05)]"
+            style={{
+              opacity: isTransitioning ? 0 : 1,
+              transform: isTransitioning ? "scale(0.8)" : "scale(1)",
+              transition: "opacity 0.5s ease, transform 0.5s ease",
+              transitionDelay: "0.3s",
+            }}
+          >
+            <h3 className="font-display text-xl md:text-2xl font-bold leading-tight drop-shadow-lg">
+              <span className="text-primary-foreground italic">Luna Jewel</span>
+            </h3>
+            <p className="font-body text-xs text-primary-foreground/70 mt-1">{slides[current].cta}</p>
+            <button
+              onClick={() => navigate(slides[current].link)}
+              className="mt-3 px-5 py-2 text-[10px] font-body font-medium tracking-wider text-primary-foreground rounded-full bg-gradient-to-r from-[hsl(170,45%,55%)] to-[hsl(185,50%,60%)] hover:from-[hsl(170,45%,50%)] hover:to-[hsl(185,50%,55%)] shadow-md hover:shadow-lg transition-all flex items-center gap-1"
+            >
+              {slides[current].cta} <ArrowRight className="w-3 h-3" />
             </button>
           </div>
         </div>
