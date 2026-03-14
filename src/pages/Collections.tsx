@@ -196,7 +196,7 @@ const Collections = () => {
         </div>
       </section>
 
-      {/* Customer Feedback */}
+      {/* Customer Feedback - Carousel */}
       <section className="py-20 relative overflow-hidden" style={{ backgroundImage: `url(${bgFeedback})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="absolute inset-0 bg-card/70" />
         <div className="container mx-auto px-4 relative z-10">
@@ -204,22 +204,7 @@ const Collections = () => {
             <h2 className="section-title">Phản Hồi Khách Hàng</h2>
             <p className="section-subtitle">Những Lời Đánh Giá Chân Thật</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {reviews.map((review, i) => (
-              <div key={i} className="text-center">
-                <div className="w-20 h-20 rounded-full mx-auto mb-4 overflow-hidden border-2 border-primary/20">
-                  <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
-                </div>
-                <div className="flex justify-center gap-1 mb-3">
-                  {Array.from({ length: review.rating }).map((_, j) => (
-                    <Star key={j} className="w-5 h-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <h3 className="font-display text-xl font-semibold mb-2">{review.name}</h3>
-                <p className="font-body text-sm text-muted-foreground italic leading-relaxed">{review.text}</p>
-              </div>
-            ))}
-          </div>
+          <ReviewsCarousel reviews={reviews} />
         </div>
       </section>
 
