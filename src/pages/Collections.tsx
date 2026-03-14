@@ -226,4 +226,104 @@ const Collections = () => {
   );
 };
 
+/* Collections Carousel - 2 items per scroll */
+const CollectionsCarousel = ({ products, onAddToCart, toggleFavorite, isFavorite }: {
+  products: typeof import("@/data/products").products;
+  onAddToCart: (p: typeof import("@/data/products").products[0]) => void;
+  toggleFavorite: (id: string) => void;
+  isFavorite: (id: string) => boolean;
+}) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 2, loop: true });
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  return (
+    <div className="relative">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex -ml-4">
+          {products.map((col) => (
+            <div key={col.id} className="min-w-0 shrink-0 grow-0 basis-1/2 md:basis-1/4 pl-4">
+              <div className="bg-card rounded-lg overflow-hidden shadow-sm group cursor-pointer relative">
+                <Link to="/thu-vong-co" className="block overflow-hidden">
+                  <img src={col.image} alt={col.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
+                </Link>
+                <div className="p-4 text-center">
+                  <h3 className="font-display text-lg font-semibold">{col.name}</h3>
+                  <p className="font-body text-xs text-muted-foreground">{col.nameVi}</p>
+                  <p className="font-body text-primary text-sm font-medium mt-1">{col.priceDisplay}</p>
+                  <div className="flex items-center justify-center gap-2 mt-3">
+                    <button
+                      onClick={() => {
+                        toggleFavorite(col.id);
+                        toast({ title: isFavorite(col.id) ? `Đã bỏ ${col.nameVi} khỏi yêu thích` : `❤️ Đã thêm ${col.nameVi} vào yêu thích!` });
+                      }}
+                      className={`p-2 rounded-full border transition-all ${
+                        isFavorite(col.id)
+                          ? "border-red-400 bg-red-50 text-red-500"
+                          : "border-border text-muted-foreground hover:border-red-300 hover:text-red-400"
+                      }`}
+                    >
+                      <Heart className={`w-4 h-4 ${isFavorite(col.id) ? "fill-red-500" : ""}`} />
+                    </button>
+                    <button onClick={() => onAddToCart(col)} className="btn-outline-gold text-xs px-4 py-2">
+                      <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
+                    </button>
+                    <Link to="/thu-vong-co?camera=1">
+                      <button className="btn-gold text-xs px-4 py-2">✨ Thử Ngay</button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <button onClick={scrollPrev} className="absolute left-0 top-1/3 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronLeft className="w-5 h-5 text-foreground" />
+      </button>
+      <button onClick={scrollNext} className="absolute right-0 top-1/3 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronRight className="w-5 h-5 text-foreground" />
+      </button>
+    </div>
+  );
+};
+
+/* Reviews Carousel - 1 item per scroll */
+const ReviewsCarousel = ({ reviews }: { reviews: { name: string; text: string; rating: number; avatar: string }[] }) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 1, loop: true });
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  return (
+    <div className="relative">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex -ml-6">
+          {reviews.map((review, i) => (
+            <div key={i} className="min-w-0 shrink-0 grow-0 basis-full md:basis-1/3 pl-6">
+              <div className="text-center">
+                <div className="w-20 h-20 rounded-full mx-auto mb-4 overflow-hidden border-2 border-primary/20">
+                  <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex justify-center gap-1 mb-3">
+                  {Array.from({ length: review.rating }).map((_, j) => (
+                    <Star key={j} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
+                </div>
+                <h3 className="font-display text-xl font-semibold mb-2">{review.name}</h3>
+                <p className="font-body text-sm text-muted-foreground italic leading-relaxed">{review.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <button onClick={scrollPrev} className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronLeft className="w-5 h-5 text-foreground" />
+      </button>
+      <button onClick={scrollNext} className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronRight className="w-5 h-5 text-foreground" />
+      </button>
+    </div>
+  );
+};
+
 export default Collections;
