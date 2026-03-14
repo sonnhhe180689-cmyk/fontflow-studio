@@ -113,7 +113,7 @@ const Collections = () => {
         </div>
       </section>
 
-      {/* Collections */}
+      {/* Collections - Carousel */}
       <section id="collections-grid" className="py-20 bg-cream">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
@@ -138,7 +138,7 @@ const Collections = () => {
               {categories.map((cat) => (
                 <button
                   key={cat.value}
-                  onClick={() => { setSelectedCategory(cat.value); setShowAll(false); }}
+                  onClick={() => setSelectedCategory(cat.value)}
                   className={`px-4 py-2 rounded-full text-xs font-body font-medium border transition-all ${
                     selectedCategory === cat.value
                       ? "bg-primary text-primary-foreground border-primary"
@@ -150,53 +150,7 @@ const Collections = () => {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {displayedProducts.map((col) => (
-              <div key={col.id} className="bg-card rounded-lg overflow-hidden shadow-sm group cursor-pointer relative">
-                <Link to="/thu-vong-co" className="block overflow-hidden">
-                  <img src={col.image} alt={col.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
-                </Link>
-                <div className="p-4 text-center">
-                  <h3 className="font-display text-lg font-semibold">{col.name}</h3>
-                  <p className="font-body text-xs text-muted-foreground">{col.nameVi}</p>
-                  <p className="font-body text-primary text-sm font-medium mt-1">{col.priceDisplay}</p>
-                  <div className="flex items-center justify-center gap-2 mt-3">
-                    <button
-                      onClick={() => {
-                        toggleFavorite(col.id);
-                        toast({ title: isFavorite(col.id) ? `Đã bỏ ${col.nameVi} khỏi yêu thích` : `❤️ Đã thêm ${col.nameVi} vào yêu thích!` });
-                      }}
-                      className={`p-2 rounded-full border transition-all ${
-                        isFavorite(col.id)
-                          ? "border-red-400 bg-red-50 text-red-500"
-                          : "border-border text-muted-foreground hover:border-red-300 hover:text-red-400"
-                      }`}
-                    >
-                      <Heart className={`w-4 h-4 ${isFavorite(col.id) ? "fill-red-500" : ""}`} />
-                    </button>
-                    <button onClick={() => handleAddToCart(col)} className="btn-outline-gold text-xs px-4 py-2">
-                      <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
-                    </button>
-                    <Link to="/thu-vong-co?camera=1">
-                      <button className="btn-gold text-xs px-4 py-2">
-                        ✨ Thử Ngay
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {!showAll && filteredProducts.length > INITIAL_COUNT && (
-            <div className="text-center mt-10">
-              <button onClick={() => setShowAll(true)} className="btn-gold text-sm">Xem Thêm</button>
-            </div>
-          )}
-          {showAll && (
-            <div className="text-center mt-10">
-              <button onClick={() => setShowAll(false)} className="btn-gold text-sm">Thu Gọn</button>
-            </div>
-          )}
+          <CollectionsCarousel products={filteredProducts} onAddToCart={handleAddToCart} toggleFavorite={toggleFavorite} isFavorite={isFavorite} />
         </div>
       </section>
 
