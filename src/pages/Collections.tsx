@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Star, ShoppingCart, Search, ArrowRight, Heart } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Star, ShoppingCart, Search, ArrowRight, Heart, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import { products } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
+import useEmblaCarousel from "embla-carousel-react";
 import { Link } from "react-router-dom";
 import avatar1 from "@/assets/avatar-1.jpg";
 import avatar2 from "@/assets/avatar-2.jpg";
@@ -16,9 +17,11 @@ const reviews = [
   { name: "Minh Thu", text: "\"Vòng cổ kim cương rất đẹp, sáng lấp lánh và nhẹ nhàng. Chắc chắn sẽ ghé lại lần nữa!\"", rating: 5, avatar: avatar1 },
   { name: "Hương Như", text: "\"Tôi yêu thích vòng cổ ngọc trai ở đây. Sản phẩm giao rất nhanh và chất lượng tuyệt vời!\"", rating: 5, avatar: avatar2 },
   { name: "Lan Anh", text: "\"Bộ sưu tập cao cấp rất quý phái. Vòng cổ đẹp nhất mà tôi từng sở hữu!\"", rating: 5, avatar: avatar3 },
+  { name: "Thanh Hà", text: "\"Dịch vụ tuyệt vời, nhân viên tư vấn rất nhiệt tình. Sản phẩm đúng như hình, rất hài lòng!\"", rating: 5, avatar: avatar1 },
+  { name: "Bích Ngọc", text: "\"Lần đầu mua trang sức online mà rất an tâm. Đóng gói cẩn thận, vòng cổ sang trọng vượt mong đợi!\"", rating: 5, avatar: avatar2 },
 ];
 
-const INITIAL_COUNT = 4;
+
 
 const categories = [
   { label: "Tất Cả", value: "all" },
@@ -31,7 +34,7 @@ const categories = [
 const Collections = () => {
   const [formData, setFormData] = useState({ name: "", email: "", review: "" });
   const [selectedRating, setSelectedRating] = useState(5);
-  const [showAll, setShowAll] = useState(false);
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const { addToCart } = useCart();
@@ -60,7 +63,7 @@ const Collections = () => {
     return matchCategory && matchSearch;
   });
 
-  const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, INITIAL_COUNT);
+  
 
   return (
     <div className="pt-16">
@@ -110,7 +113,7 @@ const Collections = () => {
         </div>
       </section>
 
-      {/* Collections */}
+      {/* Collections - Carousel */}
       <section id="collections-grid" className="py-20 bg-cream">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
@@ -135,7 +138,7 @@ const Collections = () => {
               {categories.map((cat) => (
                 <button
                   key={cat.value}
-                  onClick={() => { setSelectedCategory(cat.value); setShowAll(false); }}
+                  onClick={() => setSelectedCategory(cat.value)}
                   className={`px-4 py-2 rounded-full text-xs font-body font-medium border transition-all ${
                     selectedCategory === cat.value
                       ? "bg-primary text-primary-foreground border-primary"
@@ -147,53 +150,7 @@ const Collections = () => {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {displayedProducts.map((col) => (
-              <div key={col.id} className="bg-card rounded-lg overflow-hidden shadow-sm group cursor-pointer relative">
-                <Link to="/thu-vong-co" className="block overflow-hidden">
-                  <img src={col.image} alt={col.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
-                </Link>
-                <div className="p-4 text-center">
-                  <h3 className="font-display text-lg font-semibold">{col.name}</h3>
-                  <p className="font-body text-xs text-muted-foreground">{col.nameVi}</p>
-                  <p className="font-body text-primary text-sm font-medium mt-1">{col.priceDisplay}</p>
-                  <div className="flex items-center justify-center gap-2 mt-3">
-                    <button
-                      onClick={() => {
-                        toggleFavorite(col.id);
-                        toast({ title: isFavorite(col.id) ? `Đã bỏ ${col.nameVi} khỏi yêu thích` : `❤️ Đã thêm ${col.nameVi} vào yêu thích!` });
-                      }}
-                      className={`p-2 rounded-full border transition-all ${
-                        isFavorite(col.id)
-                          ? "border-red-400 bg-red-50 text-red-500"
-                          : "border-border text-muted-foreground hover:border-red-300 hover:text-red-400"
-                      }`}
-                    >
-                      <Heart className={`w-4 h-4 ${isFavorite(col.id) ? "fill-red-500" : ""}`} />
-                    </button>
-                    <button onClick={() => handleAddToCart(col)} className="btn-outline-gold text-xs px-4 py-2">
-                      <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
-                    </button>
-                    <Link to="/thu-vong-co?camera=1">
-                      <button className="btn-gold text-xs px-4 py-2">
-                        ✨ Thử Ngay
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {!showAll && filteredProducts.length > INITIAL_COUNT && (
-            <div className="text-center mt-10">
-              <button onClick={() => setShowAll(true)} className="btn-gold text-sm">Xem Thêm</button>
-            </div>
-          )}
-          {showAll && (
-            <div className="text-center mt-10">
-              <button onClick={() => setShowAll(false)} className="btn-gold text-sm">Thu Gọn</button>
-            </div>
-          )}
+          <CollectionsCarousel products={filteredProducts} onAddToCart={handleAddToCart} toggleFavorite={toggleFavorite} isFavorite={isFavorite} />
         </div>
       </section>
 
@@ -239,7 +196,7 @@ const Collections = () => {
         </div>
       </section>
 
-      {/* Customer Feedback */}
+      {/* Customer Feedback - Carousel */}
       <section className="py-20 relative overflow-hidden" style={{ backgroundImage: `url(${bgFeedback})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="absolute inset-0 bg-card/70" />
         <div className="container mx-auto px-4 relative z-10">
@@ -247,22 +204,7 @@ const Collections = () => {
             <h2 className="section-title">Phản Hồi Khách Hàng</h2>
             <p className="section-subtitle">Những Lời Đánh Giá Chân Thật</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {reviews.map((review, i) => (
-              <div key={i} className="text-center">
-                <div className="w-20 h-20 rounded-full mx-auto mb-4 overflow-hidden border-2 border-primary/20">
-                  <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
-                </div>
-                <div className="flex justify-center gap-1 mb-3">
-                  {Array.from({ length: review.rating }).map((_, j) => (
-                    <Star key={j} className="w-5 h-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <h3 className="font-display text-xl font-semibold mb-2">{review.name}</h3>
-                <p className="font-body text-sm text-muted-foreground italic leading-relaxed">{review.text}</p>
-              </div>
-            ))}
-          </div>
+          <ReviewsCarousel reviews={reviews} />
         </div>
       </section>
 
@@ -280,6 +222,106 @@ const Collections = () => {
           </Link>
         </div>
       </section>
+    </div>
+  );
+};
+
+/* Collections Carousel - 2 items per scroll */
+const CollectionsCarousel = ({ products, onAddToCart, toggleFavorite, isFavorite }: {
+  products: typeof import("@/data/products").products;
+  onAddToCart: (p: typeof import("@/data/products").products[0]) => void;
+  toggleFavorite: (id: number) => void;
+  isFavorite: (id: number) => boolean;
+}) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 2, loop: true });
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  return (
+    <div className="relative">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex -ml-4">
+          {products.map((col) => (
+            <div key={col.id} className="min-w-0 shrink-0 grow-0 basis-1/2 md:basis-1/4 pl-4">
+              <div className="bg-card rounded-lg overflow-hidden shadow-sm group cursor-pointer relative">
+                <Link to="/thu-vong-co" className="block overflow-hidden">
+                  <img src={col.image} alt={col.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
+                </Link>
+                <div className="p-4 text-center">
+                  <h3 className="font-display text-lg font-semibold">{col.name}</h3>
+                  <p className="font-body text-xs text-muted-foreground">{col.nameVi}</p>
+                  <p className="font-body text-primary text-sm font-medium mt-1">{col.priceDisplay}</p>
+                  <div className="flex items-center justify-center gap-2 mt-3">
+                    <button
+                      onClick={() => {
+                        toggleFavorite(col.id);
+                        toast({ title: isFavorite(col.id) ? `Đã bỏ ${col.nameVi} khỏi yêu thích` : `❤️ Đã thêm ${col.nameVi} vào yêu thích!` });
+                      }}
+                      className={`p-2 rounded-full border transition-all ${
+                        isFavorite(col.id)
+                          ? "border-red-400 bg-red-50 text-red-500"
+                          : "border-border text-muted-foreground hover:border-red-300 hover:text-red-400"
+                      }`}
+                    >
+                      <Heart className={`w-4 h-4 ${isFavorite(col.id) ? "fill-red-500" : ""}`} />
+                    </button>
+                    <button onClick={() => onAddToCart(col)} className="btn-outline-gold text-xs px-4 py-2">
+                      <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
+                    </button>
+                    <Link to="/thu-vong-co?camera=1">
+                      <button className="btn-gold text-xs px-4 py-2">✨ Thử Ngay</button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <button onClick={scrollPrev} className="absolute left-0 top-1/3 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronLeft className="w-5 h-5 text-foreground" />
+      </button>
+      <button onClick={scrollNext} className="absolute right-0 top-1/3 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronRight className="w-5 h-5 text-foreground" />
+      </button>
+    </div>
+  );
+};
+
+/* Reviews Carousel - 1 item per scroll */
+const ReviewsCarousel = ({ reviews }: { reviews: { name: string; text: string; rating: number; avatar: string }[] }) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 1, loop: true });
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  return (
+    <div className="relative">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex -ml-6">
+          {reviews.map((review, i) => (
+            <div key={i} className="min-w-0 shrink-0 grow-0 basis-full md:basis-1/3 pl-6">
+              <div className="text-center">
+                <div className="w-20 h-20 rounded-full mx-auto mb-4 overflow-hidden border-2 border-primary/20">
+                  <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex justify-center gap-1 mb-3">
+                  {Array.from({ length: review.rating }).map((_, j) => (
+                    <Star key={j} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
+                </div>
+                <h3 className="font-display text-xl font-semibold mb-2">{review.name}</h3>
+                <p className="font-body text-sm text-muted-foreground italic leading-relaxed">{review.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <button onClick={scrollPrev} className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronLeft className="w-5 h-5 text-foreground" />
+      </button>
+      <button onClick={scrollNext} className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronRight className="w-5 h-5 text-foreground" />
+      </button>
     </div>
   );
 };

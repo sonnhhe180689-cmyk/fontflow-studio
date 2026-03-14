@@ -1,5 +1,5 @@
 import HeroCarousel from "@/components/HeroCarousel";
-import { ArrowRight, ShoppingCart, Play, X } from "lucide-react";
+import { ArrowRight, ShoppingCart, Play, X, ChevronLeft, ChevronRight } from "lucide-react";
 import craftsmanship from "@/assets/craftsmanship.jpg";
 import serviceAppointment from "@/assets/service-appointment.jpg";
 import servicePersonalize from "@/assets/service-personalize.jpg";
@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { products } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 
 const services = [
   { title: "Đặt lịch hẹn", desc: "Nắm vững nghệ thuật tặng quà mùa lễ hội với cuộc hẹn riêng tại cửa hàng.", cta: "Đặt Lịch Hẹn", link: "/lien-he", image: serviceAppointment },
@@ -31,36 +32,14 @@ const Index = () => {
     <div>
       <HeroCarousel />
 
-      {/* Featured Necklaces */}
+      {/* Featured Necklaces - Carousel */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="section-title">Vòng Cổ Nổi Bật</h2>
             <p className="section-subtitle">Những Thiết Kế Được Yêu Thích Nhất</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <div key={product.id} className="group cursor-pointer">
-                <Link to="/thu-vong-co" className="block overflow-hidden rounded-lg bg-card">
-                  <img src={product.image} alt={product.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
-                </Link>
-                <div className="mt-4 text-center">
-                  <h3 className="font-display text-lg font-semibold">{product.name}</h3>
-                  <p className="font-body text-primary text-sm font-medium mt-1">{product.priceDisplay}</p>
-                  <div className="flex items-center gap-2 justify-center flex-wrap">
-                    <button onClick={() => handleAddToCart(product)} className="btn-outline-gold text-xs px-4 py-2">
-                      <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
-                    </button>
-                    <Link to="/thu-vong-co?camera=1">
-                      <button className="btn-gold text-xs px-4 py-2">
-                        ✨ Thử Ngay
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <FeaturedCarousel products={products} onAddToCart={handleAddToCart} />
         </div>
       </section>
 
@@ -179,6 +158,50 @@ const Index = () => {
           </Link>
         </div>
       </section>
+    </div>
+  );
+};
+
+/* Carousel component for Featured Necklaces - 2 items per scroll */
+const FeaturedCarousel = ({ products, onAddToCart }: { products: typeof import("@/data/products").products; onAddToCart: (p: typeof import("@/data/products").products[0]) => void }) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 2, loop: true });
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  return (
+    <div className="relative">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex -ml-4">
+          {products.map((product) => (
+            <div key={product.id} className="min-w-0 shrink-0 grow-0 basis-1/2 md:basis-1/4 pl-4">
+              <div className="group cursor-pointer">
+                <Link to="/thu-vong-co" className="block overflow-hidden rounded-lg bg-card">
+                  <img src={product.image} alt={product.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
+                </Link>
+                <div className="mt-4 text-center">
+                  <h3 className="font-display text-lg font-semibold">{product.name}</h3>
+                  <p className="font-body text-primary text-sm font-medium mt-1">{product.priceDisplay}</p>
+                  <div className="flex items-center gap-2 justify-center flex-wrap">
+                    <button onClick={() => onAddToCart(product)} className="btn-outline-gold text-xs px-4 py-2">
+                      <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
+                    </button>
+                    <Link to="/thu-vong-co?camera=1">
+                      <button className="btn-gold text-xs px-4 py-2">✨ Thử Ngay</button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <button onClick={scrollPrev} className="absolute left-0 top-1/3 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronLeft className="w-5 h-5 text-foreground" />
+      </button>
+      <button onClick={scrollNext} className="absolute right-0 top-1/3 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
+        <ChevronRight className="w-5 h-5 text-foreground" />
+      </button>
     </div>
   );
 };
