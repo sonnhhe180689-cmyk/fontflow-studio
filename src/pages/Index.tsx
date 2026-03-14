@@ -32,36 +32,14 @@ const Index = () => {
     <div>
       <HeroCarousel />
 
-      {/* Featured Necklaces */}
+      {/* Featured Necklaces - Carousel */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="section-title">Vòng Cổ Nổi Bật</h2>
             <p className="section-subtitle">Những Thiết Kế Được Yêu Thích Nhất</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <div key={product.id} className="group cursor-pointer">
-                <Link to="/thu-vong-co" className="block overflow-hidden rounded-lg bg-card">
-                  <img src={product.image} alt={product.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
-                </Link>
-                <div className="mt-4 text-center">
-                  <h3 className="font-display text-lg font-semibold">{product.name}</h3>
-                  <p className="font-body text-primary text-sm font-medium mt-1">{product.priceDisplay}</p>
-                  <div className="flex items-center gap-2 justify-center flex-wrap">
-                    <button onClick={() => handleAddToCart(product)} className="btn-outline-gold text-xs px-4 py-2">
-                      <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
-                    </button>
-                    <Link to="/thu-vong-co?camera=1">
-                      <button className="btn-gold text-xs px-4 py-2">
-                        ✨ Thử Ngay
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <FeaturedCarousel products={products} onAddToCart={handleAddToCart} />
         </div>
       </section>
 
