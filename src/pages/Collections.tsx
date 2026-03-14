@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
-import { Star, ShoppingCart, Search, ArrowRight, Heart, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, ShoppingCart, Search, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { useFavorites } from "@/context/FavoritesContext";
 import { products } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
 import useEmblaCarousel from "embla-carousel-react";
