@@ -230,8 +230,8 @@ const Collections = () => {
 const CollectionsCarousel = ({ products, onAddToCart, toggleFavorite, isFavorite }: {
   products: typeof import("@/data/products").products;
   onAddToCart: (p: typeof import("@/data/products").products[0]) => void;
-  toggleFavorite: (id: string) => void;
-  isFavorite: (id: string) => boolean;
+  toggleFavorite: (id: number) => void;
+  isFavorite: (id: number) => boolean;
 }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 2, loop: true });
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
