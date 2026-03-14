@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
-import { Star, ShoppingCart, Search, ArrowRight, Heart, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, ShoppingCart, Search, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { useFavorites } from "@/context/FavoritesContext";
 import { products } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
 import useEmblaCarousel from "embla-carousel-react";
@@ -38,7 +37,6 @@ const Collections = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const { addToCart } = useCart();
-  const { toggleFavorite, isFavorite } = useFavorites();
 
   const handleAddToCart = (p: typeof products[0]) => {
     addToCart({ id: p.id, name: p.name, nameVi: p.nameVi, price: p.price, image: p.image });
@@ -150,7 +148,7 @@ const Collections = () => {
               ))}
             </div>
           </div>
-          <CollectionsCarousel products={filteredProducts} onAddToCart={handleAddToCart} toggleFavorite={toggleFavorite} isFavorite={isFavorite} />
+          <CollectionsCarousel products={filteredProducts} onAddToCart={handleAddToCart} />
         </div>
       </section>
 
@@ -227,11 +225,9 @@ const Collections = () => {
 };
 
 /* Collections Carousel - 2 items per scroll */
-const CollectionsCarousel = ({ products, onAddToCart, toggleFavorite, isFavorite }: {
+const CollectionsCarousel = ({ products, onAddToCart }: {
   products: typeof import("@/data/products").products;
   onAddToCart: (p: typeof import("@/data/products").products[0]) => void;
-  toggleFavorite: (id: number) => void;
-  isFavorite: (id: number) => boolean;
 }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 2, loop: true });
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
@@ -251,25 +247,12 @@ const CollectionsCarousel = ({ products, onAddToCart, toggleFavorite, isFavorite
                   <h3 className="font-display text-lg font-semibold">{col.name}</h3>
                   <p className="font-body text-xs text-muted-foreground">{col.nameVi}</p>
                   <p className="font-body text-primary text-sm font-medium mt-1">{col.priceDisplay}</p>
-                  <div className="flex items-center justify-center gap-2 mt-3">
-                    <button
-                      onClick={() => {
-                        toggleFavorite(col.id);
-                        toast({ title: isFavorite(col.id) ? `Đã bỏ ${col.nameVi} khỏi yêu thích` : `❤️ Đã thêm ${col.nameVi} vào yêu thích!` });
-                      }}
-                      className={`p-2 rounded-full border transition-all ${
-                        isFavorite(col.id)
-                          ? "border-red-400 bg-red-50 text-red-500"
-                          : "border-border text-muted-foreground hover:border-red-300 hover:text-red-400"
-                      }`}
-                    >
-                      <Heart className={`w-4 h-4 ${isFavorite(col.id) ? "fill-red-500" : ""}`} />
-                    </button>
-                    <button onClick={() => onAddToCart(col)} className="btn-outline-gold text-xs px-4 py-2">
+                  <div className="grid grid-cols-2 gap-2 mt-3">
+                    <button onClick={() => onAddToCart(col)} className="btn-outline-gold text-xs px-4 py-2 w-full">
                       <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
                     </button>
-                    <Link to="/thu-vong-co?camera=1">
-                      <button className="btn-gold text-xs px-4 py-2">✨ Thử Ngay</button>
+                    <Link to="/thu-vong-co?camera=1" className="w-full">
+                      <button className="btn-gold text-xs px-4 py-2 w-full">✨ Thử Ngay</button>
                     </Link>
                   </div>
                 </div>
