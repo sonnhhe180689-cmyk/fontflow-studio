@@ -70,7 +70,7 @@ const Collections = () => {
         <img src={bgShowroom} alt="Bộ Sưu Tập Vòng Cổ" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-foreground/50" />
         <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-4 md:px-16 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="container mx-auto px-4 md:px-16 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
             <div className="max-w-lg">
               <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight">
                 Vẻ Đẹp<br /><span className="italic text-primary">Vượt Thời Gian</span>
