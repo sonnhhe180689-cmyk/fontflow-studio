@@ -70,7 +70,7 @@ const Collections = () => {
         <img src={bgShowroom} alt="Bộ Sưu Tập Vòng Cổ" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-foreground/50" />
         <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-4 md:px-16 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="container mx-auto px-4 md:px-16 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
             <div className="max-w-lg">
               <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight">
                 Vẻ Đẹp<br /><span className="italic text-primary">Vượt Thời Gian</span>
@@ -239,15 +239,14 @@ const CollectionsCarousel = ({ products, onAddToCart }: {
         <div className="flex -ml-4">
           {products.map((col) => (
             <div key={col.id} className="min-w-0 shrink-0 grow-0 basis-1/2 md:basis-1/4 pl-4">
-              <div className="bg-card rounded-lg overflow-hidden shadow-sm group cursor-pointer relative">
-                <Link to="/thu-vong-co" className="block overflow-hidden">
+              <div className="group cursor-pointer">
+                <Link to="/thu-vong-co" className="block overflow-hidden rounded-lg bg-card">
                   <img src={col.image} alt={col.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
                 </Link>
-                <div className="p-4 text-center">
+                <div className="mt-4 text-center">
                   <h3 className="font-display text-lg font-semibold">{col.name}</h3>
-                  <p className="font-body text-xs text-muted-foreground">{col.nameVi}</p>
                   <p className="font-body text-primary text-sm font-medium mt-1">{col.priceDisplay}</p>
-                  <div className="grid grid-cols-2 gap-2 mt-3">
+                  <div className="grid grid-cols-2 gap-2">
                     <button onClick={() => onAddToCart(col)} className="btn-outline-gold text-xs px-4 py-2 w-full">
                       <ShoppingCart className="w-3 h-3 inline mr-1" /> Thêm Vào Giỏ
                     </button>
