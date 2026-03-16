@@ -13,27 +13,27 @@ import bgFeedback from "@/assets/bg-feedback.jpg";
 import GiftSection from "@/components/GiftSection";
 
 const reviews = [
-{ name: "Minh Thu", text: "\"Vòng cổ kim cương rất đẹp, sáng lấp lánh và nhẹ nhàng. Chắc chắn sẽ ghé lại lần nữa!\"", rating: 5, avatar: avatar1 },
-{ name: "Hương Như", text: "\"Tôi yêu thích vòng cổ ngọc trai ở đây. Sản phẩm giao rất nhanh và chất lượng tuyệt vời!\"", rating: 5, avatar: avatar2 },
-{ name: "Lan Anh", text: "\"Bộ sưu tập cao cấp rất quý phái. Vòng cổ đẹp nhất mà tôi từng sở hữu!\"", rating: 5, avatar: avatar3 },
-{ name: "Thanh Hà", text: "\"Dịch vụ tuyệt vời, nhân viên tư vấn rất nhiệt tình. Sản phẩm đúng như hình, rất hài lòng!\"", rating: 5, avatar: avatar1 },
-{ name: "Bích Ngọc", text: "\"Lần đầu mua trang sức online mà rất an tâm. Đóng gói cẩn thận, vòng cổ sang trọng vượt mong đợi!\"", rating: 5, avatar: avatar2 }];
-
+  { name: "Minh Thu", text: "\"Vòng cổ kim cương rất đẹp, sáng lấp lánh và nhẹ nhàng. Chắc chắn sẽ ghé lại lần nữa!\"", rating: 5, avatar: avatar1 },
+  { name: "Hương Như", text: "\"Tôi yêu thích vòng cổ ngọc trai ở đây. Sản phẩm giao rất nhanh và chất lượng tuyệt vời!\"", rating: 5, avatar: avatar2 },
+  { name: "Lan Anh", text: "\"Bộ sưu tập cao cấp rất quý phái. Vòng cổ đẹp nhất mà tôi từng sở hữu!\"", rating: 5, avatar: avatar3 },
+  { name: "Thanh Hà", text: "\"Dịch vụ tuyệt vời, nhân viên tư vấn rất nhiệt tình. Sản phẩm đúng như hình, rất hài lòng!\"", rating: 5, avatar: avatar1 },
+  { name: "Bích Ngọc", text: "\"Lần đầu mua trang sức online mà rất an tâm. Đóng gói cẩn thận, vòng cổ sang trọng vượt mong đợi!\"", rating: 5, avatar: avatar2 },
+];
 
 
 
 const categories = [
-{ label: "Tất Cả", value: "all" },
-{ label: "Cổ Điển", value: "pearl" },
-{ label: "Cao Cấp", value: "luxury" },
-{ label: "Hiện Đại", value: "rosegold" },
-{ label: "Đá Quý", value: "diamond" }];
-
+  { label: "Tất Cả", value: "all" },
+  { label: "Cổ Điển", value: "pearl" },
+  { label: "Cao Cấp", value: "luxury" },
+  { label: "Hiện Đại", value: "rosegold" },
+  { label: "Đá Quý", value: "diamond" },
+];
 
 const Collections = () => {
   const [formData, setFormData] = useState({ name: "", email: "", review: "" });
   const [selectedRating, setSelectedRating] = useState(5);
-
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const { addToCart } = useCart();
@@ -56,12 +56,12 @@ const Collections = () => {
   const filteredProducts = products.filter((p) => {
     const matchCategory = selectedCategory === "all" || p.category === selectedCategory;
     const matchSearch = searchQuery.trim() === "" ||
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.nameVi.toLowerCase().includes(searchQuery.toLowerCase());
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.nameVi.toLowerCase().includes(searchQuery.toLowerCase());
     return matchCategory && matchSearch;
   });
 
-
+  
 
   return (
     <div className="pt-16">
@@ -94,7 +94,7 @@ const Collections = () => {
           </div>
         </div>
         <div className="absolute bottom-8 left-0 right-0">
-          <div className="container md:px-16 gap-[40px] px-[60px] mx-[60px] my-[30px] py-[30px] flex items-end justify-end">
+          <div className="container mx-auto px-4 md:px-16 flex gap-12">
             <div>
               <p className="font-display text-2xl md:text-3xl font-bold text-primary">24/7</p>
               <p className="font-body text-xs text-primary-foreground/70">Hỗ Trợ Khách Hàng</p>
@@ -129,23 +129,23 @@ const Collections = () => {
                 placeholder="Tìm kiếm vòng cổ..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-border rounded-full bg-card font-body text-sm focus:outline-none focus:border-primary" />
-              
+                className="w-full pl-10 pr-4 py-2.5 border border-border rounded-full bg-card font-body text-sm focus:outline-none focus:border-primary"
+              />
             </div>
             <div className="flex gap-2 flex-wrap justify-center">
-              {categories.map((cat) =>
-              <button
-                key={cat.value}
-                onClick={() => setSelectedCategory(cat.value)}
-                className={`px-4 py-2 rounded-full text-xs font-body font-medium border transition-all ${
-                selectedCategory === cat.value ?
-                "bg-primary text-primary-foreground border-primary" :
-                "bg-card text-foreground border-border hover:border-primary/50"}`
-                }>
-                
+              {categories.map((cat) => (
+                <button
+                  key={cat.value}
+                  onClick={() => setSelectedCategory(cat.value)}
+                  className={`px-4 py-2 rounded-full text-xs font-body font-medium border transition-all ${
+                    selectedCategory === cat.value
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-card text-foreground border-border hover:border-primary/50"
+                  }`}
+                >
                   {cat.label}
                 </button>
-              )}
+              ))}
             </div>
           </div>
           <CollectionsCarousel products={filteredProducts} onAddToCart={handleAddToCart} />
@@ -173,15 +173,15 @@ const Collections = () => {
             <p className="section-subtitle">Chia Sẻ Trải Nghiệm Của Bạn</p>
           </div>
           <div className="flex justify-center gap-2 mb-8">
-            {[1, 2, 3, 4, 5].map((star) =>
-            <Star
-              key={star}
-              className={`w-8 h-8 cursor-pointer transition-colors ${
-              star <= selectedRating ? "fill-primary text-primary" : "text-muted-foreground"}`
-              }
-              onClick={() => setSelectedRating(star)} />
-
-            )}
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Star
+                key={star}
+                className={`w-8 h-8 cursor-pointer transition-colors ${
+                  star <= selectedRating ? "fill-primary text-primary" : "text-muted-foreground"
+                }`}
+                onClick={() => setSelectedRating(star)}
+              />
+            ))}
           </div>
           <div className="space-y-4">
             <input type="text" placeholder="Tên của bạn" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 border border-border rounded-sm bg-card font-body text-sm focus:outline-none focus:border-primary" />
@@ -220,15 +220,15 @@ const Collections = () => {
           </Link>
         </div>
       </section>
-    </div>);
-
+    </div>
+  );
 };
 
 /* Collections Carousel - 2 items per scroll */
-const CollectionsCarousel = ({ products, onAddToCart
-
-
-}: {products: typeof import("@/data/products").products;onAddToCart: (p: typeof import("@/data/products").products[0]) => void;}) => {
+const CollectionsCarousel = ({ products, onAddToCart }: {
+  products: typeof import("@/data/products").products;
+  onAddToCart: (p: typeof import("@/data/products").products[0]) => void;
+}) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 2, loop: true });
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -237,8 +237,8 @@ const CollectionsCarousel = ({ products, onAddToCart
     <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex -ml-4">
-          {products.map((col) =>
-          <div key={col.id} className="min-w-0 shrink-0 grow-0 basis-1/2 md:basis-1/4 pl-4">
+          {products.map((col) => (
+            <div key={col.id} className="min-w-0 shrink-0 grow-0 basis-1/2 md:basis-1/4 pl-4">
               <div className="group cursor-pointer">
                 <Link to="/thu-vong-co" className="block overflow-hidden rounded-lg bg-card">
                   <img src={col.image} alt={col.name} className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110" />
@@ -257,7 +257,7 @@ const CollectionsCarousel = ({ products, onAddToCart
                 </div>
               </div>
             </div>
-          )}
+          ))}
         </div>
       </div>
       <button onClick={scrollPrev} className="absolute left-0 top-1/3 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
@@ -266,12 +266,12 @@ const CollectionsCarousel = ({ products, onAddToCart
       <button onClick={scrollNext} className="absolute right-0 top-1/3 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
         <ChevronRight className="w-5 h-5 text-foreground" />
       </button>
-    </div>);
-
+    </div>
+  );
 };
 
 /* Reviews Carousel - 1 item per scroll */
-const ReviewsCarousel = ({ reviews }: {reviews: {name: string;text: string;rating: number;avatar: string;}[];}) => {
+const ReviewsCarousel = ({ reviews }: { reviews: { name: string; text: string; rating: number; avatar: string }[] }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", slidesToScroll: 1, loop: true });
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -280,22 +280,22 @@ const ReviewsCarousel = ({ reviews }: {reviews: {name: string;text: string;ratin
     <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex -ml-6">
-          {reviews.map((review, i) =>
-          <div key={i} className="min-w-0 shrink-0 grow-0 basis-full md:basis-1/3 pl-6">
+          {reviews.map((review, i) => (
+            <div key={i} className="min-w-0 shrink-0 grow-0 basis-full md:basis-1/3 pl-6">
               <div className="text-center">
                 <div className="w-20 h-20 rounded-full mx-auto mb-4 overflow-hidden border-2 border-primary/20">
                   <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex justify-center gap-1 mb-3">
-                  {Array.from({ length: review.rating }).map((_, j) =>
-                <Star key={j} className="w-5 h-5 fill-primary text-primary" />
-                )}
+                  {Array.from({ length: review.rating }).map((_, j) => (
+                    <Star key={j} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
                 </div>
                 <h3 className="font-display text-xl font-semibold mb-2">{review.name}</h3>
                 <p className="font-body text-sm text-muted-foreground italic leading-relaxed">{review.text}</p>
               </div>
             </div>
-          )}
+          ))}
         </div>
       </div>
       <button onClick={scrollPrev} className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
@@ -304,8 +304,8 @@ const ReviewsCarousel = ({ reviews }: {reviews: {name: string;text: string;ratin
       <button onClick={scrollNext} className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10">
         <ChevronRight className="w-5 h-5 text-foreground" />
       </button>
-    </div>);
-
+    </div>
+  );
 };
 
 export default Collections;
